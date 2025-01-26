@@ -10,13 +10,14 @@ import Vendor from './pages/Vendor.jsx'
 import Board from './pages/Board.jsx'
 import Bid from './pages/Bid.jsx'
 import StopBid from './pages/StopBid.jsx'
+import DoneBid from './pages/DoneBid.jsx'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
    
 
-    <StopBid />
+    <DoneBid />
    
   </StrictMode>,
 )
