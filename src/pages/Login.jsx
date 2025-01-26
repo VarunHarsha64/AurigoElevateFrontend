@@ -1,12 +1,15 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import AuthContext from '../context/userContext';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const {email,setEmail,setName, setRole, setToken} = useContext(AuthContext);
+  const {role,email,setEmail,setName, setRole, setToken} = useContext(AuthContext);
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
+   const navigate = useNavigate()
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,8 +31,17 @@ const Login = () => {
       
       setSuccess(true);
       console.log('Login successful:', response.data);
-    } catch (err) {
-      console.log(err)
+
+
+      if (role === "vendor") {
+        navigate('/vendor'); // Navigate to the vendor page
+      } else if (role === "client") {
+        navigate('/client'); // Navigate to the client page
+      }
+
+
+    } catch (err) { 
+      console.log(err)  
       console.error('Login error:', err.response?.data?.message || err.message);
       setError(err.response?.data?.message || 'Login failed. Please try again.');
     }

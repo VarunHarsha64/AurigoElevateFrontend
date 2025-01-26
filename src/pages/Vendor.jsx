@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AuthContext from "../context/userContext";
 import {jwtDecode} from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 const Vendor = () => {
   const [cartItems, setCartItems] = useState([]);
   const [productOptions, setProductOptions] = useState([]);
@@ -10,6 +11,8 @@ const Vendor = () => {
   });
   const [id, setId] = useState(null);
   const [error, setError] = useState(null);
+  const navigate = useNavigate()
+  
 
   const { name, email, token } = useContext(AuthContext);
 
@@ -42,7 +45,6 @@ const Vendor = () => {
         setError(err.message);
       }
     };
-
     fetchProducts();
     console.log(productOptions)
   }, []);
@@ -106,9 +108,12 @@ const Vendor = () => {
       }
 
       alert("Vendor created successfully!");
+      navigate("/bid")
+      
     } catch (err) {
       console.error(err.message);
       alert(`Error: ${err.message}`);
+      navigate("/bid")
     }
   };
 

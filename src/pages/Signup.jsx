@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -8,6 +8,8 @@ const Signup = () => {
   const [password, setPassword] = useState('');
   const [role, setRole] = useState('Vendor');
   const [message, setMessage] = useState(null);
+  const navigate = useNavigate()
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ const Signup = () => {
       });
 
       setMessage(response.data.message || 'Signup successful!');
+      navigate("/login")
     } catch (err) {
       setMessage(err.response?.data?.message || 'Signup failed. Please try again.');
     }
@@ -96,12 +99,12 @@ const Signup = () => {
           </div>
           {/* Submit Button */}
           <div>
-            <NavLink to='/login'
+            <button
               type="submit"
               className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Submit
-            </NavLink>
+            </button>
           </div>
         </form>
         {message && <p className="mt-4 text-center text-sm text-red-600">{message}</p>}

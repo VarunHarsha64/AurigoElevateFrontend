@@ -31,8 +31,6 @@ createRoot(document.getElementById("root")).render(
           <Route path="/client" element={<Client />}></Route>
           <Route path="/vendor" element={<Vendor />}></Route>
           <Route path="/bid" element={<Bid />}></Route>
-          {/* <Route path="/dashboard" element={<Dashboard />}></Route> */}
-          <Route path="/login" element={<Login />}></Route>
           <Route path="/opt" element={<Opt/>}></Route>
         </Routes>
       </BrowserRouter>
