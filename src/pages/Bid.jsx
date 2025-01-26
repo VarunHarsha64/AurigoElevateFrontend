@@ -58,9 +58,9 @@ const Bid = () => {
                 key={index}
                 className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500"
               >
-                <h3 className="text-xl font-semibold text-gray-800">{bid.productId.name}</h3>
+                <h3 className="text-xl font-semibold text-gray-800">John Doe</h3>
                 <p className="text-gray-600 mt-2">
-                  Client: <span className="font-medium">{bid.clientId.name}</span>
+                  Client: <span className="font-medium">John Doe</span>
                 </p>
                 <p className="text-gray-600 mt-2">
                   Initial Price: <span className="font-medium">${bid.initialPrice}</span>
@@ -74,7 +74,7 @@ const Bid = () => {
                   {bid.bids.map((bidDetail, index) => (
                     <div key={index} className="mt-2">
                       <p className="text-gray-600">
-                        Vendor: <span className="font-medium">{bidDetail.vendorId.name}</span>
+                        Vendor: <span className="font-medium">John Doe</span>
                       </p>
                       <p className="text-gray-600">
                         Quantity: <span className="font-medium">{bidDetail.quantity}</span>
