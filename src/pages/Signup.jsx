@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { NavLink } from 'react-router-dom';
 
 const Signup = () => {
   const [name, setName] = useState('');
@@ -95,12 +96,12 @@ const Signup = () => {
           </div>
           {/* Submit Button */}
           <div>
-            <button
+            <NavLink to='/login'
               type="submit"
               className="w-full bg-red-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               Submit
-            </button>
+            </NavLink>
           </div>
         </form>
         {message && <p className="mt-4 text-center text-sm text-red-600">{message}</p>}

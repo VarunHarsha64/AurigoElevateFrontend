@@ -58,10 +58,7 @@ const Bid = () => {
                 key={index}
                 className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500"
               >
-                <h3 className="text-xl font-semibold text-gray-800">John Doe</h3>
-                <p className="text-gray-600 mt-2">
-                  Client: <span className="font-medium">John Doe</span>
-                </p>
+                <h3 className="text-xl font-semibold text-gray-800">{bid.productId.name}</h3>
                 <p className="text-gray-600 mt-2">
                   Initial Price: <span className="font-medium">${bid.initialPrice}</span>
                 </p>
