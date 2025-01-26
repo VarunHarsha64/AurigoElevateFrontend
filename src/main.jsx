@@ -5,13 +5,18 @@ import Dashboard from './pages/dashboard.jsx'
 import { createBrowserRouter, Router, RouterProvider} from 'react-router-dom'
 import Login from './pages/login.jsx'
 import Client from './pages/Client.jsx'
+import Opt from './pages/Opt.jsx'
+import Vendor from './pages/Vendor.jsx'
+import Board from './pages/Board.jsx'
+import Bid from './pages/Bid.jsx'
+import StopBid from './pages/StopBid.jsx'
 
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
    
 
-    <Dashboard />
+    <StopBid />
    
   </StrictMode>,
 )
