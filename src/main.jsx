@@ -12,12 +12,8 @@ import Bid from './pages/Bid.jsx'
 import StopBid from './pages/StopBid.jsx'
 import DoneBid from './pages/DoneBid.jsx'
 
-
-createRoot(document.getElementById('root')).render(
+createRoot(document.getElementById("root")).render(
   <StrictMode>
-   
-
     <Bid />
-   
   </StrictMode>,
 )

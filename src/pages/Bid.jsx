@@ -1,36 +1,40 @@
-import React, { useState } from 'react';
-
-const products = [
-  { name: "Stone", quantity: "1000 tons", basePrice: "$5000" },
-  { name: "Clay", quantity: "500 tons", basePrice: "$3000" },
-  { name: "Gravel", quantity: "2000 tons", basePrice: "$7000" },
-  { name: "Asphalt", quantity: "800 tons", basePrice: "$6000" },
-  { name: "Cement", quantity: "1500 tons", basePrice: "$4000" },
-  { name: "Sand", quantity: "1200 tons", basePrice: "$3500" },
-  { name: "Limestone", quantity: "600 tons", basePrice: "$4500" },
-  { name: "Bricks", quantity: "900 tons", basePrice: "$5500" },
-  { name: "Sandstone", quantity: "1500 tons", basePrice: "$4000" },
-  { name: "Quick lime", quantity: "1200 tons", basePrice: "$3500" },
-  { name: "Steel", quantity: "1100 tons", basePrice: "$4500" },
-  { name: "Wood", quantity: "900 tons", basePrice: "$5500" }
-];
+import React, { useState, useEffect } from 'react';
 
 const Bid = () => {
-  const [bidPrices, setBidPrices] = useState({});
+  const [bids, setBids] = useState([]);
+  const [error, setError] = useState(null);
 
-  const handleInputChange = (index, value) => {
-    setBidPrices((prev) => ({ ...prev, [index]: value }));
-  };
+  useEffect(() => {
+    const fetchBids = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/bids/getAllBids', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-  const handleBidClick = (product) => {
-    alert(`Bid placed for ${product.name} at ${bidPrices[product.name] || "default price"}`);
-  };
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to fetch bidding details');
+        }
+
+        setBids(data); // Update the state with the bids
+      } catch (err) {
+        setError(err.message);
+        console.error(err);
+      }
+    };
+
+    fetchBids();
+  }, []);
 
   return (
-    <div className="flex h-screen bg-gray-900 text-black">
+    <div className="flex h-screen bg-gray-900 text-gray-100">
       {/* Sidebar */}
       <aside className="w-1/6 bg-gray-800 p-6 flex flex-col space-y-6">
-        <h2 className="text-xl font-semibold text-black mb-4">Menu</h2>
+        <h2 className="text-xl font-semibold text-gray-300 mb-4">Menu</h2>
         <button className="w-full py-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition">Add Product</button>
         <button className="w-full py-3 bg-gray-700 rounded-lg hover:bg-gray-600 transition">Bid</button>
       </aside>
@@ -44,34 +48,49 @@ const Bid = () => {
 
         {/* Product Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product, index) => (
-            <div
-              key={index}
-              className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500"
-            >
-              <h3 className="text-xl font-semibold text-gray-800">{product.name}</h3>
-              <p className="text-black mt-2">Quantity: <span className="font-medium">{product.quantity}</span></p>
-              <p className="text-black mt-1">Base Price: <span className="font-medium">{product.basePrice}</span></p>
-              <input
-                type="number"
-                placeholder="Enter your bid"
-                value={bidPrices[product.name] || ""}
-                onChange={(e) => handleInputChange(product.name, e.target.value)}
-                className="w-full mt-4 p-2 border border-gray-300 rounded-lg"
-              />
-              <button
-                onClick={() => handleBidClick(product)}
-                disabled={index === 0 || index === 1} // Disabling first two buttons
-                className={`w-full mt-2 py-2 rounded-lg ${
-                  index === 0 || index === 1
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-blue-500 hover:bg-blue-600"
-                } text-black`}
+          {error ? (
+            <div className="text-center text-red-500">{error}</div>
+          ) : bids.length === 0 ? (
+            <div className="text-center text-gray-500">No bids available</div>
+          ) : (
+            bids.map((bid, index) => (
+              <div
+                key={index}
+                className="bg-white p-6 rounded-lg shadow-lg border-l-4 border-blue-500"
               >
-                {index === 0 || index === 1 ? "Bid is closed" : "Bid"}
-              </button>
-            </div>
-          ))}
+                <h3 className="text-xl font-semibold text-gray-800">{bid.productId.name}</h3>
+                <p className="text-gray-600 mt-2">
+                  Client: <span className="font-medium">{bid.clientId.name}</span>
+                </p>
+                <p className="text-gray-600 mt-2">
+                  Initial Price: <span className="font-medium">${bid.initialPrice}</span>
+                </p>
+                <p className="text-gray-600 mt-2">
+                  Status: <span className="font-medium">{bid.status}</span>
+                </p>
+
+                <div className="mt-4">
+                  <h4 className="text-lg font-semibold text-gray-800">Bids</h4>
+                  {bid.bids.map((bidDetail, index) => (
+                    <div key={index} className="mt-2">
+                      <p className="text-gray-600">
+                        Vendor: <span className="font-medium">{bidDetail.vendorId.name}</span>
+                      </p>
+                      <p className="text-gray-600">
+                        Quantity: <span className="font-medium">{bidDetail.quantity}</span>
+                      </p>
+                      <p className="text-gray-600">
+                        Price Per Unit: <span className="font-medium">${bidDetail.pricePerUnit}</span>
+                      </p>
+                      <p className="text-gray-600">
+                        Total Cost: <span className="font-medium">${bidDetail.totalCost}</span>
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </main>
     </div>
