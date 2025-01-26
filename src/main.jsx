@@ -17,7 +17,7 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
    
 
-    <DoneBid />
+    <Bid />
    
   </StrictMode>,
 )
